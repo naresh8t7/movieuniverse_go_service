@@ -14,7 +14,7 @@
 
 ### Architecture 
 
-![Movie Universe](Movie Universe Architecture.png)
+![Movie Universe](https://github.com/naresh8t7/movieuniverse_go_service/blob/main/Movie%20Universe%20Architecture.png)
 
 ### Endpoints:
 
