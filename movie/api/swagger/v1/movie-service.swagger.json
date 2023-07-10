@@ -1,0 +1,273 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Movie service",
+    "version": "1.0",
+    "contact": {
+      "name": "movieuniverse",
+      "email": "naresh.8t7@gmail.com"
+    }
+  },
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/movie": {
+      "post": {
+        "summary": "Create new Movie Movie",
+        "operationId": "Create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateMovieResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateMovieRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MovieService"
+        ]
+      }
+    },
+    "/v1/movie/all": {
+      "get": {
+        "summary": "Read all Movie Movies",
+        "operationId": "ListAll",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListAllMoviesResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MovieService"
+        ]
+      }
+    },
+    "/v1/movie/tags": {
+      "put": {
+        "summary": "Update tags on a movie.",
+        "operationId": "AddTags",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1AddTagsResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1AddTagsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MovieService"
+        ]
+      }
+    },
+    "/v1/movie/{title}": {
+      "get": {
+        "summary": "Read Movie Movie",
+        "operationId": "Read",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetMovieResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "title",
+            "description": "Get movie by title.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MovieService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "v1AddTagsRequest": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Title of the movie. In actual cases it would be id of the movie."
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Tags to update in a movie."
+        }
+      },
+      "description": "Request data to read Movie."
+    },
+    "v1AddTagsResponse": {
+      "type": "object",
+      "properties": {
+        "movie": {
+          "$ref": "#/definitions/v1Movie",
+          "description": "Updated movie with tags."
+        }
+      },
+      "title": "Contains Movie data specified in by ID request"
+    },
+    "v1CreateMovieRequest": {
+      "type": "object",
+      "properties": {
+        "movie": {
+          "$ref": "#/definitions/v1Movie",
+          "title": "Movie entity to add"
+        }
+      },
+      "title": "Request data to create new movie"
+    },
+    "v1CreateMovieResponse": {
+      "type": "object",
+      "properties": {
+        "movie": {
+          "$ref": "#/definitions/v1Movie",
+          "title": "created Movie"
+        }
+      },
+      "description": "Contains data of created Movie."
+    },
+    "v1GetMovieResponse": {
+      "type": "object",
+      "properties": {
+        "movie": {
+          "$ref": "#/definitions/v1Movie",
+          "title": "Movie entity read by title"
+        }
+      },
+      "title": "Contains Movie data specified in by title request"
+    },
+    "v1ListAllMoviesResponse": {
+      "type": "object",
+      "properties": {
+        "movies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Movie"
+          },
+          "title": "List of all Movie Movies"
+        }
+      },
+      "title": "Contains list of all Movies"
+    },
+    "v1Movie": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "title": "Title of the Movie"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags for the movie"
+        },
+        "year": {
+          "type": "string",
+          "format": "int64",
+          "description": "Released year of the movie."
+        },
+        "actors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Person"
+          },
+          "description": "Actors acted in movie."
+        },
+        "directors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Person"
+          },
+          "description": "Director of the movie."
+        }
+      },
+      "title": "Movie"
+    },
+    "v1Person": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "name of the person"
+        }
+      },
+      "description": "Person who can be Actor, Director etc.\nThis can be moved to  person folder and have a seperate service dealing actors, directors and crew."
+    }
+  }
+}

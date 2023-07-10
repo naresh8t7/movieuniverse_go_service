@@ -1,0 +1,26 @@
+mutation {
+    kb: createPerson(name: "Arnold" born: 1958 )
+    mr: createPerson(name: "Tom Ryan" born: 1961 )
+    a13: createMovie(title: "Matrix 4" released: 1995 )
+
+    matrix: createMovie(title: "The Matrix 5" released: 1999 )
+    kb_matrix: addPersonMovies(name:"Arnold" movies:["Matrix 4", "The Matrix 5"])
+    mr_a13: addPersonMovies(name:"Tom Ryan" movies:["Matrix 4"])
+
+    th: createPerson(name:"Tom Cruise" born:1956)
+    fg: createMovie(title:"Mi:4")
+}
+
+query {
+    Person(name: "Arnold") {
+        born,
+        movies {
+            title
+            released
+            actors {
+                name
+                born
+            }
+         }
+     }
+}

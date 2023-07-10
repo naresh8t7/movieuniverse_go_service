@@ -1,0 +1,139 @@
+syntax = "proto3";
+package v1;
+
+import "google/api/annotations.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+	info: {
+		title: "Movie service";
+        version: "1.0";
+        contact: {
+            name: "movieuniverse";
+            email: "naresh.8t7@gmail.com";
+        };
+    };
+    schemes: HTTP;
+    consumes: "application/json";
+    produces: "application/json";
+    responses: {
+        key: "404";
+        value: {
+            description: "Returned when the resource does not exist.";
+            schema: {
+                json_schema: {
+                  type: STRING;
+                }
+            }
+        }
+    }
+};
+
+
+// Movie
+message Movie {
+    // Title of the Movie
+    string title = 1;
+
+    // Tags for the movie
+    repeated string tags = 2;
+
+    // Released year of the movie.
+    int64 year = 3;
+
+    // Actors acted in movie.
+    repeated Person actors = 4;
+
+    // Director of the movie.
+    repeated Person directors = 5;
+}
+
+// Person who can be Actor, Director etc.
+// This can be moved to  person folder and have a seperate service dealing actors, directors and crew.
+message Person{
+    // name of the person
+    string name = 1;
+}
+
+// Request data to create new movie
+message CreateMovieRequest{
+    // Movie entity to add
+    Movie movie = 1;
+}
+
+// Contains data of created Movie.
+message CreateMovieResponse{
+    // created Movie
+    Movie movie = 1;
+}
+
+// Request data to read Movie.
+message GetMovieRequest{
+    // Get movie by title.
+    string title = 1;
+}
+
+// Contains Movie data specified in by title request
+message GetMovieResponse{
+    // Movie entity read by title
+    Movie movie = 1;
+}
+
+// Request data to read Movie.
+message AddTagsRequest{
+    // Title of the movie. In actual cases it would be id of the movie.
+    string title = 1;
+    // Tags to update in a movie.
+    repeated string tags = 2;
+}
+
+// Contains Movie data specified in by ID request
+message AddTagsResponse{
+    // Updated movie with tags.
+    Movie movie = 1;
+}
+
+
+// Request data to read all Movies
+message ListAllMoviesRequest{
+  string filter = 1;
+}
+
+// Contains list of all Movies
+message ListAllMoviesResponse{
+    // List of all Movie Movies
+    repeated Movie movies = 2;
+}
+
+// Service to manage list of Movie Movies
+service MovieService {
+    // Read all Movie Movies
+    rpc ListAll(ListAllMoviesRequest) returns (ListAllMoviesResponse){
+        option (google.api.http) = {
+            get: "/v1/movie/all"
+        };
+    }
+
+    // Create new Movie Movie
+    rpc Create(CreateMovieRequest) returns (CreateMovieResponse){
+        option (google.api.http) = {
+            post: "/v1/movie"
+            body: "*"
+        };
+    }
+
+    // Read Movie Movie
+    rpc Read(GetMovieRequest) returns (GetMovieResponse){
+        option (google.api.http) = {
+            get: "/v1/movie/{title}"
+        };
+    }
+
+    // Update tags on a movie.
+    rpc AddTags(AddTagsRequest) returns (AddTagsResponse){
+        option (google.api.http) = {
+            put: "/v1/movie/tags"
+            body: "*"
+        };
+    }
+}
