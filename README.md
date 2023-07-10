@@ -10,7 +10,11 @@
 * gRPC, Protobufs
 * [Golang Neo4j SeaBolt Driver](https://github.com/neo4j-drivers/seabolt/releases)
 * Neo4j-Server
-* Frontend: React, Redux, bootstrap, [d3.js](http://d3js.org/) The frontend instructions are provided in the attached app.
+* Frontend: React, Redux, bootstrap, [d3.js](http://d3js.org/) The frontend instructions are provided in the [repo](https://github.com/naresh8t7/movie_uiniverse_react_app) .
+
+### Architecture 
+
+![Movie Universe](Movie Universe Architecture.png)
 
 ### Endpoints:
 
